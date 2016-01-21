@@ -6,8 +6,10 @@ library for major fitting function for neuroscience with MATLAB
 ## Circular functions
  - FitSin: sin function
  ![tuneSin.png](tuneSin.png)
+
  - FitCorcGauss: circular gaussian function (VonMises)
  ![tuneCG.png](tuneCG.png)
+
  .
  .
  .
