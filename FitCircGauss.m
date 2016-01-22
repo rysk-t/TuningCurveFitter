@@ -22,8 +22,8 @@ function [optparam, fo, circGauss] = FitCircGauss(x, y)
 % [optparam, ~, circGauss]=FitCircGauss(x,y);
 % xopt = (0:1:180)*pi/180;
 % figure; hold on
-% plot(x,y,'d')
-% plot(xopt, circGauss(optparam, xopt), 'k-')
+% plot(x,y,'o')
+% plot(xopt, circGauss(optparam, xopt), 'k-.')
 %
 % 2016-01-21 Ryosuke F Takeuchi
 
@@ -34,17 +34,17 @@ y = y(:);
 [~,init_phase] = max(y);
 vinit(1) = max(y)-min(y); % Amplitude
 vinit(2) = min(y);        % offset
-vinit(3) = x(init_phase);   % x-phase
+vinit(3) = x(init_phase); % x-phase
 vinit(4) = 0.5*pi;        % sigma of gaussian
 
-options = optimoptions('lsqnonlin', 'MaxIter', 10000,...
+options = optimoptions('lsqnonlin', 'MaxIter', 100000,...
 	'Algorithm', 'trust-region-reflective', 'Tolx', 10^-15, 'TolFun', 10^-15,...
 	'ScaleProblem', 'none', 'MaxFunEvals', length(x)*200, 'Display', 'off');
 
-ub = [abs(vinit(1)*2), max(y), 2*vinit(1) 180];
-lb = [0, -abs(max(y)), 0 0];
+ub = [abs(vinit(1)*2), max(y)*10, 2*pi 2*pi];
+lb = [0, -abs(max(y)), 0 -2*pi];
 	
-initphz = (0:30:360)*pi/180;
+initphz = (0:30:180)*pi/180;
 efunc = @(v) abs((circGauss(v,x) - y));
 
 for i = 1:length(initphz)
